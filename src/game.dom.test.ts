@@ -117,4 +117,23 @@ describe('Game state machine', () => {
     game.handleTap(keyOK.x + keyOK.w / 2, keyOK.y + keyOK.h / 2);
     expect(game.state).toBe('name-entry');
   });
+
+  it('renders gameplay shapes behind the question banner', () => {
+    const order: string[] = [];
+
+    game.state = 'playing';
+    game.question = { text: '1 + 1', answer: 2, choices: [1, 2, 3, 4] };
+    game.scoreManager = { score: 0, highScore: 0, level: 1 };
+    game.shapes = [];
+
+    game.renderer.clear = () => { order.push('clear'); };
+    game.renderer.drawShapes = () => { order.push('shapes'); };
+    game.renderer.drawParticles = () => { order.push('particles'); };
+    game.renderer.drawQuestion = () => { order.push('question'); };
+    game.renderer.drawHUD = () => { order.push('hud'); };
+
+    game.render();
+
+    expect(order).toEqual(['clear', 'shapes', 'particles', 'question', 'hud']);
+  });
 });

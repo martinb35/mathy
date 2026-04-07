@@ -198,6 +198,8 @@ export class Game {
           this.renderer.drawPauseScreen();
         } else {
           this.renderer.clear();
+          this.renderer.drawShapes(this.shapes);
+          this.renderer.drawParticles();
           if (this.question) {
             this.renderer.drawQuestion(this.question.text);
           }
@@ -206,8 +208,6 @@ export class Game {
             this.scoreManager.highScore,
             this.scoreManager.level,
           );
-          this.renderer.drawShapes(this.shapes);
-          this.renderer.drawParticles();
           if (this.state === 'celebration' && this.celebrationMessage) {
             const duration = CONFIG.CELEBRATION_DURATION_MS / 1000;
             const progress = 1 - this.celebrationTimer / duration;
@@ -218,6 +218,8 @@ export class Game {
 
       case 'game-over':
         this.renderer.clear();
+        this.renderer.drawShapes(this.shapes);
+        this.renderer.drawParticles();
         if (this.question) {
           this.renderer.drawQuestion(this.question.text);
         }
@@ -226,8 +228,6 @@ export class Game {
           this.scoreManager.highScore,
           this.scoreManager.level,
         );
-        this.renderer.drawShapes(this.shapes);
-        this.renderer.drawParticles();
         this.renderer.drawGameOver(
           this.scoreManager.score,
           this.scoreManager.highScore,
